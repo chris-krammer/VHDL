@@ -73,12 +73,12 @@ architecture rtl of io_ctrl is
 					  signal s_FF2	: inout std_logic;
 					  signal s_FF3	: inout std_logic;
 					  signal s_Out	: out std_logic) is  
-  begin  
-	s_FF3 <= s_FF2;
-	s_FF2 <= s_FF1;
-	s_FF1 <= s_In;
+  	begin  
+			s_FF3 <= s_FF2;
+			s_FF2 <= s_FF1;
+			s_FF1 <= s_In;
 
-	s_Out <= s_FF1 AND s_FF2 AND s_FF3;
+			s_Out <= s_FF1 AND s_FF2 AND s_FF3;
   end procedure;	
   
   ---------------------------------------------------------------------------------
@@ -86,24 +86,24 @@ architecture rtl of io_ctrl is
   --------------------------------------------------------------------------------- 
   function SS_Val(CalcVal : std_logic_vector(3 downto 0)) return std_logic_vector is
   begin
-	case CalcVal is
-	  when x"0" =>	return b"00000011";
-	  when x"1" =>	return b"10011111";
-	  when x"2" =>	return b"00100101";
-	  when x"3" =>	return b"00001101";
-	  when x"4" =>	return b"10011001";
-	  when x"5" =>	return b"01001001";
-	  when x"6" =>	return b"01000001";
-	  when x"7" =>	return b"00011111";
-	  when x"8" =>	return b"00000001";
-	  when x"9" =>	return b"00001001";
-	  when x"A" =>	return b"00010001";
-	  when x"B" =>	return b"11000001";
-	  when x"C" =>	return b"01100011";
-	  when x"D" =>	return b"10000101";
-	  when x"E" =>	return b"01100001";
-	  when x"F" =>	return b"01110001";
-	  when others => return x"FF"; -- All OFF
+    case CalcVal is
+      when x"0" =>	return b"00000011";
+      when x"1" =>	return b"10011111";
+      when x"2" =>	return b"00100101";
+      when x"3" =>	return b"00001101";
+      when x"4" =>	return b"10011001";
+	  	when x"5" =>	return b"01001001";
+	 		when x"6" =>	return b"01000001";
+	  	when x"7" =>	return b"00011111";
+	  	when x"8" =>	return b"00000001";
+	  	when x"9" =>	return b"00001001";
+	  	when x"A" =>	return b"00010001";
+	  	when x"B" =>	return b"11000001";
+	  	when x"C" =>	return b"01100011";
+	  	when x"D" =>	return b"10000101";
+	  	when x"E" =>	return b"01100001";
+	  	when x"F" =>	return b"01110001";
+	  	when others => return x"FF"; -- All OFF
     end case;
   end function SS_Val;
   
@@ -117,41 +117,41 @@ begin -- rtl
   p_debounce: process (CLK_i, RST_i)
   begin -- process debounce
   
-    if (RST_i = '1') then -- asynchronous reset (active high)
-	s_swFF1	<= (others => '0');
-	s_swFF2	<= (others => '0');
-	s_swFF3	<= (others => '0');
-	s_pbFF1	<= (others => '0');
-	s_pbFF2	<= (others => '0');
-	s_pbFF3	<= (others => '0');
-        swsync	<= (others => '0');
-	pbsync	<= (others => '0');
+  	if (RST_i = '1') then -- asynchronous reset (active high)
+			s_swFF1	<= (others => '0');
+			s_swFF2	<= (others => '0');
+			s_swFF3	<= (others => '0');
+			s_pbFF1	<= (others => '0');
+			s_pbFF2	<= (others => '0');
+			s_pbFF3	<= (others => '0');
+  		swsync	<= (others => '0');
+			pbsync	<= (others => '0');
 	
-	elsif (rising_edge(CLK_i)) then -- rising clock edge
-	  -- Debounce PushButtons
-	  Debounce(PB_i( 0), s_pbFF1( 0), s_pbFF2( 0), s_pbFF3( 0), pbsync( 0));
-	  Debounce(PB_i( 1), s_pbFF1( 1), s_pbFF2( 1), s_pbFF3( 1), pbsync( 1));
-	  Debounce(PB_i( 2), s_pbFF1( 2), s_pbFF2( 2), s_pbFF3( 2), pbsync( 2));
-	  Debounce(PB_i( 3), s_pbFF1( 3), s_pbFF2( 3), s_pbFF3( 3), pbsync( 3));
-	  -- Debounce Switches
-	  Debounce(SW_i( 0), s_swFF1( 0), s_swFF2( 0), s_swFF3( 0), swsync( 0));
-	  Debounce(SW_i( 1), s_swFF1( 1), s_swFF2( 1), s_swFF3( 1), swsync( 1));
-	  Debounce(SW_i( 2), s_swFF1( 2), s_swFF2( 2), s_swFF3( 2), swsync( 2));
-	  Debounce(SW_i( 3), s_swFF1( 3), s_swFF2( 3), s_swFF3( 3), swsync( 3));
-	  Debounce(SW_i( 4), s_swFF1( 4), s_swFF2( 4), s_swFF3( 4), swsync( 4));
-	  Debounce(SW_i( 5), s_swFF1( 5), s_swFF2( 5), s_swFF3( 5), swsync( 5));
-	  Debounce(SW_i( 6), s_swFF1( 6), s_swFF2( 6), s_swFF3( 6), swsync( 6));
-	  Debounce(SW_i( 7), s_swFF1( 7), s_swFF2( 7), s_swFF3( 7), swsync( 7));
-	  Debounce(SW_i( 8), s_swFF1( 8), s_swFF2( 8), s_swFF3( 8), swsync( 8));
-	  Debounce(SW_i( 9), s_swFF1( 9), s_swFF2( 9), s_swFF3( 9), swsync( 9));
-	  Debounce(SW_i(10), s_swFF1(10), s_swFF2(10), s_swFF3(10), swsync(10));	
-	  Debounce(SW_i(11), s_swFF1(11), s_swFF2(11), s_swFF3(11), swsync(11));
-	  Debounce(SW_i(12), s_swFF1(12), s_swFF2(12), s_swFF3(12), swsync(12));
-	  Debounce(SW_i(13), s_swFF1(13), s_swFF2(13), s_swFF3(13), swsync(13));	
-	  Debounce(SW_i(14), s_swFF1(14), s_swFF2(14), s_swFF3(14), swsync(14));	
-	  Debounce(SW_i(15), s_swFF1(15), s_swFF2(15), s_swFF3(15), swsync(15));
+		elsif (rising_edge(CLK_i)) then -- rising clock edge
+	  	-- Debounce PushButtons
+	  	Debounce(PB_i( 0), s_pbFF1( 0), s_pbFF2( 0), s_pbFF3( 0), pbsync( 0));
+	  	Debounce(PB_i( 1), s_pbFF1( 1), s_pbFF2( 1), s_pbFF3( 1), pbsync( 1));
+	  	Debounce(PB_i( 2), s_pbFF1( 2), s_pbFF2( 2), s_pbFF3( 2), pbsync( 2));
+	  	Debounce(PB_i( 3), s_pbFF1( 3), s_pbFF2( 3), s_pbFF3( 3), pbsync( 3));
+	  	-- Debounce Switches
+	  	Debounce(SW_i( 0), s_swFF1( 0), s_swFF2( 0), s_swFF3( 0), swsync( 0));
+	  	Debounce(SW_i( 1), s_swFF1( 1), s_swFF2( 1), s_swFF3( 1), swsync( 1));
+	  	Debounce(SW_i( 2), s_swFF1( 2), s_swFF2( 2), s_swFF3( 2), swsync( 2));
+	  	Debounce(SW_i( 3), s_swFF1( 3), s_swFF2( 3), s_swFF3( 3), swsync( 3));
+	  	Debounce(SW_i( 4), s_swFF1( 4), s_swFF2( 4), s_swFF3( 4), swsync( 4));
+	  	Debounce(SW_i( 5), s_swFF1( 5), s_swFF2( 5), s_swFF3( 5), swsync( 5));
+	  	Debounce(SW_i( 6), s_swFF1( 6), s_swFF2( 6), s_swFF3( 6), swsync( 6));
+	  	Debounce(SW_i( 7), s_swFF1( 7), s_swFF2( 7), s_swFF3( 7), swsync( 7));
+	  	Debounce(SW_i( 8), s_swFF1( 8), s_swFF2( 8), s_swFF3( 8), swsync( 8));
+	  	Debounce(SW_i( 9), s_swFF1( 9), s_swFF2( 9), s_swFF3( 9), swsync( 9));
+	  	Debounce(SW_i(10), s_swFF1(10), s_swFF2(10), s_swFF3(10), swsync(10));	
+	  	Debounce(SW_i(11), s_swFF1(11), s_swFF2(11), s_swFF3(11), swsync(11));
+	  	Debounce(SW_i(12), s_swFF1(12), s_swFF2(12), s_swFF3(12), swsync(12));
+	  	Debounce(SW_i(13), s_swFF1(13), s_swFF2(13), s_swFF3(13), swsync(13));	
+	  	Debounce(SW_i(14), s_swFF1(14), s_swFF2(14), s_swFF3(14), swsync(14));	
+	  	Debounce(SW_i(15), s_swFF1(15), s_swFF2(15), s_swFF3(15), swsync(15));
 	  
-	end if;
+		end if;
   end process p_debounce;
   
   SWSYNC_o <= swsync;
@@ -172,13 +172,14 @@ begin -- rtl
     p_displaycontrol : process (FCLK_i, RST_i)
     begin -- process displaycontroler
 	
-	  if(RST_i = '1') then
-      -- Reset condition is not needed here,
-	  -- since during the RESET something is shown on the display
+	  	if(RST_i = '1') then
+      	-- Reset condition is not needed here,
+	  		-- since during the RESET something is shown on the display
+				
       elsif (rising_edge(FCLK_i)) then -- rising clock edge
-	    s_sel <= std_logic_vector( unsigned(s_sel) + 1 );
-	  end if;
-
+	    	s_sel <= std_logic_vector( unsigned(s_sel) + 1 );
+	  	
+			end if;
     end process p_displaycontrol;
 
     -----------------------------------------------------------------------------
@@ -188,12 +189,12 @@ begin -- rtl
     U1 : mux4to1
     generic map (DataWidth => 8)
     port map (IN0_i => SS_Val(cntr0_i),
-			  IN1_i => SS_Val(cntr1_i),
-			  IN2_i => SS_Val(cntr2_i),
-			  IN3_i => SS_Val(cntr3_i),
-			  SEL_i => s_sel,
-			  OUT_o => s_ss
-			  );
+			  			IN1_i => SS_Val(cntr1_i),
+			  			IN2_i => SS_Val(cntr2_i),
+			  			IN3_i => SS_Val(cntr3_i),
+			  			SEL_i => s_sel,
+			  			OUT_o => s_ss
+		);
 			  
     -----------------------------------------------------------------------------
     -- DIGIT SEL MUX - Controlled by p_displaycontrol
@@ -202,12 +203,12 @@ begin -- rtl
     U2 : mux4to1
     generic map (DataWidth => 4)
     port map (IN0_i => b"1110",
-			  IN1_i => b"1101",
-			  IN2_i => b"1011",
-			  IN3_i => b"0111",
-			  SEL_i => s_sel,
-			  OUT_o => s_ss_sel
-			  );
+			  			IN1_i => b"1101",
+			  			IN2_i => b"1011",
+			  			IN3_i => b"0111",
+			  			SEL_i => s_sel,
+			  			OUT_o => s_ss_sel
+		);
   
   SS_o <= s_ss when RST_i = '0' else b"11111111";
   SS_SEL_o <= s_ss_sel;
