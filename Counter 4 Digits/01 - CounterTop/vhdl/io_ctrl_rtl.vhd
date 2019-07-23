@@ -124,7 +124,7 @@ begin -- rtl
 	s_pbFF1	<= (others => '0');
 	s_pbFF2	<= (others => '0');
 	s_pbFF3	<= (others => '0');
-    swsync	<= (others => '0');
+        swsync	<= (others => '0');
 	pbsync	<= (others => '0');
 	
 	elsif (rising_edge(CLK_i)) then -- rising clock edge
