@@ -12,11 +12,11 @@
 --
 -- Author: Christopher Krammer
 --
--- Filename: mux4to1_.vhd
+-- Filename: tb_mux4to1_sim.vhd
 --
 -- Version: 1.0
 --
--- Design Unit: mux4to1 (Entitiy)
+-- Design Unit: tb_mux4to1 (Tesbench)
 --
 -- Description: Selects one of the four inputs and copies it to the output
 --

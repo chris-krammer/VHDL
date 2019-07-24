@@ -12,13 +12,22 @@
 --
 -- Author: Christopher Krammer
 --
--- Filename: mux4to1_.vhd
+-- Filename: clkPrescale_rtl.vhd
 --
 -- Version: 1.0
 --
--- Design Unit: mux4to1 (Architectiure)
+-- Design Unit: clkPrescale (Entitiy)
 --
--- Description: Selects one of the four inputs and copies it to the output
+-- Description: Prescales MasterClock
+--        Generic g_SOURCEHZ defines MasterClock Frequency in HZ (integer)
+--        Generic g_TARGETHZ defines TargetClock Frequency in HZ (integer)
+--
+-- !! KEEP IN MIND: NEW FREQUENCY IS UPDATED DURING CLOCK LOW.
+--          THIS MEANS THE ACTUAL PERIOD WILL BE FINISHED BEFORE
+--          THE NEW PERIOD WILL START
+--          EXCEPTION: RESET
+--
+-- !! KEEP IN MIND: OUTPUT IS NOT UPDATED IF WRONG INPUTS APPLIED
 --
 --------------------------------------------------------------------------------
 -- CVS Change Log:
@@ -26,28 +35,18 @@
 --------------------------------------------------------------------------------
 library IEEE;
 use IEEE.std_logic_1164.all;
-use IEEE.numeric_std.all;
 
-architecture rtl of mux4to1 is
-
-  signal s_temp : std_logic_vector(DataWidth - 1 downto 0);
-  
-  begin
-  
-  p_comb : process(SEL_i, IN0_i, IN1_i, IN2_i, IN3_i) is
-
-    begin
-
-      case SEL_i is
-        when "00" => s_temp <= IN0_i;
-        when "01" => s_temp <= IN1_i;
-        when "10" => s_temp <= IN2_i;
-        when "11" => s_temp <= IN3_i;
-        when others => s_temp <= (others => 'X'); -- 'U', 'X', '-', etc.
-      end case;
-    end process;
-
-  -- Assign to output
-  OUT_o <= s_temp;
-
-end architecture;
+entity clkPrescale is
+  -- Use generics with "generic map (target => value)" when instantiating
+  -- Define Source- and Targetfrequencies
+  generic(g_SOURCEHZ : integer := 100e6;
+          g_TARGETHZ : integer :=   1e3);
+  port(
+    -- Inputs
+    CLK_i : in std_logic;
+    RST_i : in std_logic; -- HIGH Active Reset
+    
+    -- Outputs
+    OUT_o: out std_logic
+  );
+end entity;

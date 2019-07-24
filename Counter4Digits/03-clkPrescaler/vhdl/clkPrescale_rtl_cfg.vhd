@@ -12,19 +12,28 @@
 --
 -- Author: Christopher Krammer
 --
--- Filename: mux4to1_rtl_cfg.vhd
+-- Filename: clkPrescale_rtl_cfg.vhd
 --
 -- Version: 1.0
 --
--- Design Unit: mux4to1 (Configuration)
+-- Design Unit: clkPrescale (Configuration)
 --
--- Description: Selects one of the four inputs and copies it to the output
+-- Description: Prescales MasterClock
+--        Generic g_SOURCEHZ defines MasterClock Frequency in HZ (integer)
+--        Generic g_TARGETHZ defines TargetClock Frequency in HZ (integer)
+--
+-- !! KEEP IN MIND: NEW FREQUENCY IS UPDATED DURING CLOCK LOW.
+--          THIS MEANS THE ACTUAL PERIOD WILL BE FINISHED BEFORE
+--          THE NEW PERIOD WILL START
+--          EXCEPTION: RESET
+--
+-- !! KEEP IN MIND: OUTPUT IS NOT UPDATED IF WRONG INPUTS APPLIED
 --
 --------------------------------------------------------------------------------
 -- CVS Change Log:
 --
 --------------------------------------------------------------------------------
-configuration mux4to1_rtl_cfg of mux4to1 is
+configuration clkPrescale_rtl_cfg of clkPrescale is
   for rtl        -- architecture rtl is used for entity orgate
   end for;
-end mux4to1_rtl_cfg;
+end clkPrescale_rtl_cfg;

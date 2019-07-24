@@ -12,19 +12,41 @@
 --
 -- Author: Christopher Krammer
 --
--- Filename: mux4to1_rtl_cfg.vhd
+-- Filename: clkPrescale_rtl.vhd
 --
 -- Version: 1.0
 --
--- Design Unit: mux4to1 (Configuration)
+-- Design Unit: clkPrescale (Entitiy)
 --
--- Description: Selects one of the four inputs and copies it to the output
+-- Description: Prescales MasterClock
+--        Generic g_SOURCEHZ defines MasterClock Frequency in HZ (integer)
+--        Generic g_TARGETHZ defines TargetClock Frequency in HZ (integer)
+--
+-- !! KEEP IN MIND: NEW FREQUENCY IS UPDATED DURING CLOCK LOW.
+--          THIS MEANS THE ACTUAL PERIOD WILL BE FINISHED BEFORE
+--          THE NEW PERIOD WILL START
+--          EXCEPTION: RESET
+--
+-- !! KEEP IN MIND: OUTPUT IS NOT UPDATED IF WRONG INPUTS APPLIED
 --
 --------------------------------------------------------------------------------
 -- CVS Change Log:
 --
 --------------------------------------------------------------------------------
-configuration mux4to1_rtl_cfg of mux4to1 is
-  for rtl        -- architecture rtl is used for entity orgate
-  end for;
-end mux4to1_rtl_cfg;
+library IEEE;
+use IEEE.std_logic_1164.all;
+
+entity clkPrescale is
+  -- Use generics with "generic map (target => value)" when instantiating
+  -- Define Source- and Targetfrequencies
+  generic(g_SOURCEHZ : integer := 100e6,
+          g_TARGETHZ : integer :=   1e3);
+  port(
+    -- Inputs
+    CLK_i : in std_logic;
+    RST_i : in std_logic; -- HIGH Active Reset
+    
+    -- Outputs
+    OUT_o: out std_logic
+  );
+end entity;
