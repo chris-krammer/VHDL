@@ -170,12 +170,12 @@ p_test : process is
     wait until rising_edge(s_SClk); -- 01
     wait until rising_edge(s_SClk); -- 02
     wait until rising_edge(s_SClk); -- 03
-  -- 11 ms
+  -- 10 ms
     wait until rising_edge(s_SClk); -- 00
     wait until rising_edge(s_SClk); -- 01
     -- Reset
     s_Rst <= '1';
-  -- 14 ms
+  -- 12 ms
       
   end process;
 end architecture;
