@@ -26,7 +26,6 @@
 --------------------------------------------------------------------------------
 library IEEE;
 use IEEE.std_logic_1164.all;
-use IEEE.numeric_std.all;
 
 entity mux4to1 is
   -- Use generics with "generic map (target => value)" when instantiating
@@ -38,7 +37,6 @@ entity mux4to1 is
     IN1_i : in std_logic_vector(DataWidth - 1 downto 0);  -- Input 2
     IN2_i : in std_logic_vector(DataWidth - 1 downto 0);  -- Input 3
     IN3_i : in std_logic_vector(DataWidth - 1 downto 0);  -- Input 4
-    
     SEL_i : in std_logic_vector(1 downto 0);  -- Input Select Signal
     
     -- Outputs

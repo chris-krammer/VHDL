@@ -30,11 +30,11 @@ use IEEE.numeric_std.all;
 
 architecture sim of tb_mux4to1 is
 
-  -- Board Clock
+  -- Board Clock as main clock
   constant ClockFrequencyHz : integer := 100e6; -- 100 MHz
   constant ClockPeriod      : time    := 1000 ms / ClockFrequencyHz;
 
-  -- Slow Clock
+  -- Slow Clock for other purposes
   constant SClockFrequencyHz : integer := 1e3; -- 1 kHz
   constant SClockPeriod      : time    := 1000 ms / SClockFrequencyHz;
   
@@ -52,7 +52,6 @@ architecture sim of tb_mux4to1 is
       IN1_i : in std_logic_vector(DataWidth - 1 downto 0);  -- Input 2
       IN2_i : in std_logic_vector(DataWidth - 1 downto 0);  -- Input 3
       IN3_i : in std_logic_vector(DataWidth - 1 downto 0);  -- Input 4
-      
       SEL_i : in std_logic_vector(1 downto 0);  -- Input Select Signal
       
       -- Outputs
@@ -155,29 +154,28 @@ p_sel : process(s_SClk, s_Rst) -- Sequential
     -- Testbench sequence
 p_test : process is
   begin
-
   -- 0 ms 
     wait until rising_edge(s_SClk);
     wait until rising_edge(s_SClk);
   -- 2 ms
-      -- Take the DUT out of reset
+  -- Take the DUT out of reset
     s_Rst <= '0';
     -- SEL
     wait until rising_edge(s_SClk); -- 00
     wait until rising_edge(s_SClk); -- 01
     wait until rising_edge(s_SClk); -- 02
     wait until rising_edge(s_SClk); -- 03
-  
+  -- 6ms
     wait until rising_edge(s_SClk); -- 00
     wait until rising_edge(s_SClk); -- 01
     wait until rising_edge(s_SClk); -- 02
     wait until rising_edge(s_SClk); -- 03
-  
+  -- 11 ms
     wait until rising_edge(s_SClk); -- 00
     wait until rising_edge(s_SClk); -- 01
     -- Reset
     s_Rst <= '1';
-    
-      end process;
-
+  -- 14 ms
+      
+  end process;
 end architecture;
