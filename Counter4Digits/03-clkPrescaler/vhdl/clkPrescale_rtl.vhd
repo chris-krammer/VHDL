@@ -22,12 +22,9 @@
 --        Generic g_SOURCEHZ defines MasterClock Frequency in HZ (integer)
 --        Generic g_TARGETHZ defines TargetClock Frequency in HZ (integer)
 --
--- !! KEEP IN MIND: NEW FREQUENCY IS UPDATED DURING CLOCK LOW.
---          THIS MEANS THE ACTUAL PERIOD WILL BE FINISHED BEFORE
---          THE NEW PERIOD WILL START
---          EXCEPTION: RESET
---
--- !! KEEP IN MIND: OUTPUT IS NOT UPDATED IF WRONG INPUTS APPLIED
+-- !! KEEP IN MIND: NO MECHANISMS IMPLEMENTED FOR TARGET > SOURCE
+-- !! KEEP IN MIND: NOT SUITABLE AS CLOCK SIGNAL (ROUTED AS SIGNAL)
+-- !! KEEP IN MIND: FOR SERIOUS CLOCK GENERATION USE MANUFACTURER SUPPLIED CORES
 --
 --------------------------------------------------------------------------------
 -- CVS Change Log:
@@ -39,17 +36,17 @@ use IEEE.numeric_std.all;
 
 architecture rtl of clkPrescale is
 
-  signal s_preLoad  : integer range 0 to g_SOURCEHZ - 1; -- PreLoad containtin ratio
-  signal s_count    : integer range 0 to g_SOURCEHZ - 1; -- Counter
+  constant c_ratio  : integer range 0 to g_SOURCEHZ := (g_SOURCEHZ / g_TARGETHZ);
+  signal s_count    : integer range 0 to g_SOURCEHZ := 0;
   signal s_out      : std_logic := '0';            -- Output SIGNAL
+  signal s_err      : std_logic := '0';
  
-
 begin
 
-  s_preLoad <= (g_SOURCEHZ / g_TARGETHZ);
+  s_err <= '1' when (c_ratio < 1) else '0';
     
   process(CLK_i, RST_i)
-  
+
     begin
       -- Asynchronous Reset
       if (RST_i = '1') then
@@ -57,17 +54,20 @@ begin
         s_count <= 0;
 
       elsif(rising_Edge(CLK_i)) then
-        if(s_count = s_preLoad -1) then
-          s_count <= 0;
-          s_out <= not s_out;
+        if(s_err = '0') then 
+          if(s_count = ((c_ratio / 2) - 1)) then
+            s_count <= 0;
+            s_out <= not s_out;
 
-        else
-          s_count <= s_count + 1;
+          else
+            s_count <= s_count + 1;
 
+          end if;
         end if;
       end if;
   end process;
 
+  ERR_o <= s_err;
   OUT_o <= s_out;
 
 end architecture rtl;

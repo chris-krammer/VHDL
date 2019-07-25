@@ -22,12 +22,9 @@
 --        Generic g_SOURCEHZ defines MasterClock Frequency in HZ (integer)
 --        Generic g_TARGETHZ defines TargetClock Frequency in HZ (integer)
 --
--- !! KEEP IN MIND: NEW FREQUENCY IS UPDATED DURING CLOCK LOW.
---          THIS MEANS THE ACTUAL PERIOD WILL BE FINISHED BEFORE
---          THE NEW PERIOD WILL START
---          EXCEPTION: RESET
---
--- !! KEEP IN MIND: OUTPUT IS NOT UPDATED IF WRONG INPUTS APPLIED
+-- !! KEEP IN MIND: NO MECHANISMS IMPLEMENTED FOR TARGET > SOURCE
+-- !! KEEP IN MIND: NOT SUITABLE AS CLOCK SIGNAL (ROUTED AS SIGNAL)
+-- !! KEEP IN MIND: FOR SERIOUS CLOCK GENERATION USE MANUFACTURER SUPPLIED CORES
 --
 --------------------------------------------------------------------------------
 -- CVS Change Log:

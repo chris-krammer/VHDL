@@ -22,12 +22,9 @@
 --        Generic g_SOURCEHZ defines MasterClock Frequency in HZ (integer)
 --        Generic g_TARGETHZ defines TargetClock Frequency in HZ (integer)
 --
--- !! KEEP IN MIND: NEW FREQUENCY IS UPDATED DURING CLOCK LOW.
---          THIS MEANS THE ACTUAL PERIOD WILL BE FINISHED BEFORE
---          THE NEW PERIOD WILL START
---          EXCEPTION: RESET
---
--- !! KEEP IN MIND: OUTPUT IS NOT UPDATED IF WRONG INPUTS APPLIED
+-- !! KEEP IN MIND: NO MECHANISMS IMPLEMENTED FOR TARGET > SOURCE
+-- !! KEEP IN MIND: NOT SUITABLE AS CLOCK SIGNAL (ROUTED AS SIGNAL)
+-- !! KEEP IN MIND: FOR SERIOUS CLOCK GENERATION USE MANUFACTURER SUPPLIED CORES
 --
 --------------------------------------------------------------------------------
 -- CVS Change Log:
@@ -38,10 +35,16 @@ use IEEE.std_logic_1164.all;
 
 configuration tb_clkPrescale_sim_cfg of tb_clkPrescale is
   for sim
-    for i_mux : mux4to1
-      use configuration work.mux4to1_rtl_cfg;
+    for i_clk1 : clkPrescale
+      use configuration work.clkPrescale_rtl_cfg;
     end for;
-	for i_pre : clkPrescale
+    for i_clk2 : clkPrescale
+      use configuration work.clkPrescale_rtl_cfg;
+    end for;
+    for i_clk3 : clkPrescale
+      use configuration work.clkPrescale_rtl_cfg;
+    end for;
+    for i_clk4 : clkPrescale
       use configuration work.clkPrescale_rtl_cfg;
     end for;
   end for;
