@@ -1,0 +1,30 @@
+-- Set of files to be compiled
+-- MUX
+vcom ../Counter/mux/vhdl/mux4to1_.vhd
+vcom ../Counter/mux/vhdl/mux4to1_rtl.vhd
+vcom ../Counter/mux/vhdl/mux4to1_rtl_cfg.vhd
+-- CLKPRESCALE
+vcom ../Counter/clkPrescale/vhdl/clkPrescale_.vhd
+vcom ../Counter/clkPrescale/vhdl/clkPrescale_rtl.vhd
+vcom ../Counter/clkPrescale/vhdl/clkPrescale_rtl_cfg.vhd
+-- DEBOUNCER
+vcom ../Counter/debouncer/vhdl/debouncer_.vhd
+vcom ../Counter/debouncer/vhdl/debouncer_rtl.vhd
+vcom ../Counter/debouncer/vhdl/debouncer_rtl_cfg.vhd
+-- IOCTRL
+vcom ../Counter/ioControl/vhdl/ioCtrl_.vhd
+vcom ../Counter/ioControl/vhdl/ioCtrl_rtl.vhd
+vcom ../Counter/ioControl/vhdl/ioCtrl_rtl_cfg.vhd
+-- Counter
+vcom ../Counter/counter_fsm/vhdl/counter_.vhd
+vcom ../Counter/counter_fsm/vhdl/counter_rtl.vhd
+vcom ../Counter/counter_fsm/vhdl/counter_rtl_cfg.vhd
+-- Counter
+vcom ../Counter/counter_TOP/vhdl/counterTop_.vhd
+vcom ../Counter/counter_TOP/vhdl/counterTop_struc.vhd
+vcom ../Counter/counter_TOP/vhdl/counterTop_struc_cfg.vhd
+
+-- TESTBENCH
+vcom ../Counter/counter_TOP/tb/tb_counterTop_.vhd
+vcom ../Counter/counter_TOP/tb/tb_counterTop_sim.vhd
+vcom ../Counter/counter_TOP/tb/tb_counterTop_sim_cfg.vhd
