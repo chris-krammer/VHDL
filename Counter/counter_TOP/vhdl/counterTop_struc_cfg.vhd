@@ -1,0 +1,46 @@
+--------------------------------------------------------------------------------------------------
+--                                                                                              --
+--                                                                                              --
+--                  F A C H H O C H S C H U L E   -   T E C H N I K U M W I E N                 --
+--                                                                                              --
+--                                                                                              --
+--------------------------------------------------------------------------------------------------
+--                                                                                              --
+-- Web: http://www.technikum-wien.at/                                                           --
+--                                                                                              --
+-- Contact: christopher.krammer@technikum-wien.at                                               --
+--------------------------------------------------------------------------------------------------
+--
+--
+-- Author: Christopher Krammer
+--
+-- Filename: counterTop_struc_cfg.vhd
+--
+-- Date of Creation: Sun Dec 16 21:33:00 2018
+--
+-- Version: 1.0
+--
+-- Date of Latest Version: Sun Dec 16 21:33:00 2018
+--
+-- Design Unit: counterTop (Configuration)
+--
+-- Description: Counts up or down and displays the current value through the four onboard 7-Segments
+--        Counter is able to:
+--        - hold counter value
+--        - reset counter value
+--        - reset counter value and continue with the last direction or hold (BTNR)
+--        - count up
+--        - count down
+--        - change counter base (DEC, HEX, OCT, BIN) (requires RESET (BTNC OR BTNR))
+--        - change the counting frequency (1kHz, 1Hz, 10Hz, 100Hz)
+--
+--------------------------------------------------------------------------------------------------
+--
+-- CVS Change Log:
+--
+--
+--------------------------------------------------------------------------------------------------
+configuration counterTop_struc_cfg of counterTop is
+  for struc        -- architecture struc is used for entity
+  end for;
+end counterTop_struc_cfg;

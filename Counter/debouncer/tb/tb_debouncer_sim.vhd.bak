@@ -1,0 +1,140 @@
+--------------------------------------------------------------------------------------------------
+--                                                                                              --
+--                                                                                              --
+--                  F A C H H O C H S C H U L E   -   T E C H N I K U M W I E N                 --
+--                                                                                              --
+--                                                                                              --
+--------------------------------------------------------------------------------------------------
+--                                                                                              --
+-- Web: http://www.technikum-wien.at/                                                           --
+--                                                                                              --
+-- Contact: christopher.krammer@technikum-wien.at                                               --
+--------------------------------------------------------------------------------------------------
+--
+--
+-- Author: Christopher Krammer
+--
+-- Filename: tb_debouncer_sim.vhd
+--
+-- Date of Creation: Mon Dec 17 12:30:00 2018
+--
+-- Version: 1.0
+--
+-- Date of Latest Version: Fri Dec 14 12:30:00 2018
+--
+-- Design Unit: ioCtrl (Testbench Entity)
+--
+-- Description: Syncs and debounces the inputs from mechanical inputs
+--------------------------------------------------------------------------------------------------
+--
+-- CVS Change Log:
+--
+--
+--------------------------------------------------------------------------------------------------
+library IEEE;
+use IEEE.std_logic_1164.all;
+use IEEE.numeric_std.all;
+
+architecture sim of tb_debouncer is
+
+  constant c_CLOCKFREQUENCYHZ : integer := 100e6;   -- 100 MHz
+  constant c_CLOCKPERIOD      : time    := 1000 ms / c_CLOCKFREQUENCYHZ;
+  constant c_RSTACTIVE        : std_logic := '1';
+  constant c_PB               : integer range 0 to 4 := 4;
+  constant c_SW               : integer range 0 to 16 := 16;
+
+  signal s_CLK  : std_logic := '1'; -- BoardClock
+  signal s_RST  : std_logic := '1'; -- Reset Signal
+
+  signal s_PBIN   : std_logic_vector(c_PB - 1 downto 0) := (others => '0');
+  signal s_PBOUT  : std_logic_vector(c_PB - 1 downto 0) := (others => '0');
+  signal s_SWIN   : std_logic_vector(c_SW - 1 downto 0) := (others => '0');
+  signal s_SWOUT  : std_logic_vector(c_SW - 1 downto 0) := (others => '0');
+
+  component debouncer
+    generic(g_SOURCEHZ      : integer range 1 to 100e6 := 100e6;  -- Board Clock Frequency in Hz
+            g_DEBTIME       : integer range 1 to 100 := 10;       -- Debounce Time in ms
+            g_RSTACTIVE     : std_logic := '1'                    -- Reset ACTIVE state
+          );
+    port( --  Inputs
+          CLK_i : in std_logic:  -- Board Clock
+          RST_i : in std_logic:  -- Reset
+          IN_i  : in std_logic;  -- Input to be debounced
+
+          -- Outputs
+          OUT_o : out std_logic
+        );
+  end component;
+
+begin
+
+  -- Process for generating the clock
+  s_CLK <= not s_CLK  after c_CLOCKPERIOD / 2;
+
+  GEN_PB_DEBOUNCER : for i in 1 to c_PB generate
+    PB_DEBx : debouncer
+      generic map(
+        g_SOURCEHZ  => c_CLOCKFREQUENCYHZ,
+        g_DEBTIME   => 10,
+        g_RSTACTIVE => c_RSTACTIVE
+        )
+      port map(
+        CLK_i => s_CLK,
+        RST_i => s_RST,
+        IN_i  => s_PBIN(i),
+        OUT_o => s_PBOUT(i)
+        );
+  end generate GEN_PB_DEBOUNCER;
+
+  GEN_SW_DEBOUNCER : for i in 1 to c_SW generate
+    SW_DEBx : debouncer
+      generic map(
+        g_SOURCEHZ  => c_CLOCKFREQUENCYHZ,
+        g_DEBTIME   => 10,
+        g_RSTACTIVE => c_RSTACTIVE
+        )
+      port map(
+        CLK_i => s_CLK,
+        RST_i => s_RST,
+        IN_i  => s_SWIN(i),
+        OUT_o => s_SWOUT(i)
+        );
+  end generate GEN_PB_DEBOUNCER;
+
+-- Testbench sequence
+  process is
+  begin
+
+  --  0ms
+    wait until rising_edge(s_CLK);
+    wait until rising_edge(s_CLK);
+    s_RST <= '0';
+
+    wait for 4 ms;
+
+    -- PB(3) bouncing
+    s_PBIN(3) <= '1';
+      wait for 12 us;
+      s_PBIN(3) <= '0';
+      wait for 25 us;
+      s_PBIN(3) <= '1';
+      wait for 88 us;
+      s_PBIN(3) <= '0';
+      wait for 88 us;
+      s_PBIN(3) <= '1';
+
+    wait for 10 ms:
+
+    s_RST <= '1';
+
+    wait
+  end process;
+end architecture sim;
+
+
+
+
+
+
+
+
