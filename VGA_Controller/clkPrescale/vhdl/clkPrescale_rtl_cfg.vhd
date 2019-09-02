@@ -1,0 +1,42 @@
+--------------------------------------------------------------------------------------------------
+--                                                                                              --
+--                                                                                              --
+--                  F A C H H O C H S C H U L E   -   T E C H N I K U M W I E N                 --
+--                                                                                              --
+--                                                                                              --
+--------------------------------------------------------------------------------------------------
+--                                                                                              --
+-- Web: http://www.technikum-wien.at/                                                           --
+--                                                                                              --
+-- Contact: christopher.krammer@technikum-wien.at                                               --
+--------------------------------------------------------------------------------------------------
+--
+--
+-- Author: Christopher Krammer
+--
+-- Filename: clkPrescale_rtl_cfg.vhd
+--
+-- Date of Creation: Sun Dec 16 21:33:00 2018
+--
+-- Version: 1.0
+--
+-- Date of Latest Version: Sun Dec 16 21:33:00 2018
+--
+-- Design Unit: clkPrescale (Configuration)
+--
+-- Description: Prescales MasterClock
+--              Generic g_SOURCEHZ defines MasterClock Frequency in HZ (integer)
+--              Generic g_TARGETHZ defines TargetClock Frequency in HZ (integer)
+--
+-- !! KEEP IN MIND: THE OUTPUT SHOULD ONLY BE USED AS ENABLE SIGNAL, _NOT_ AS CLOCK SIGNAL
+--                  SIGNAL IS _NOT_ ROUTED VIA CLOCK-TREE
+--------------------------------------------------------------------------------------------------
+--
+-- CVS Change Log:
+--
+--
+--------------------------------------------------------------------------------------------------
+configuration clkPrescale_rtl_cfg of clkPrescale is
+  for rtl        -- architecture rtl is used for entity
+  end for;
+end clkPrescale_rtl_cfg;

@@ -1,0 +1,9 @@
+vcom ../vhdl/clkPrescale_.vhd
+vcom ../vhdl/clkPrescale_rtl.vhd
+vcom ../vhdl/clkPrescale_rtl_cfg.vhd
+vcom ../vhdl/vgaCtrl_.vhd
+vcom ../vhdl/vgaCtrl_rtl.vhd
+vcom ../vhdl/vgaCtrl_rtl_cfg.vhd
+vcom ../tb/tb_vgaCtrl_.vhd
+vcom ../tb/tb_vgaCtrl_sim.vhd
+vcom ../tb/tb_vgaCtrl_sim_cfg.vhd
