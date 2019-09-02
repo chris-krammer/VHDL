@@ -148,11 +148,11 @@ p_seq : process(CLK_i, RST_i) is -- Sequential because it is clocked
 
       -- Manage pixel coordinates
       if (s_hCount < g_hPixels) then         -- Beam is in visible area
-        s_col <= s_hCount;                  -- Output the column number
+        s_col <= s_hCount;                   -- Output the column number
       end if;
 
       if (s_vCount < g_vPixels) then         -- Beam is in visible area
-        s_row <= s_vCount;                  -- Output the row number
+        s_row <= s_vCount;                   -- Output the row number
       end if;
 
     end if; -- Enable
