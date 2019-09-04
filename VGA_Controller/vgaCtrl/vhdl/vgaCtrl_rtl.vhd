@@ -82,15 +82,15 @@ architecture rtl of vgaCtrl is
   constant c_hMax : integer := g_hFP + g_hPULSE + g_hBP + g_hPixels; -- for 640x480: c_hMax = 800
   constant c_vMax : integer := g_vFP + g_vPULSE + g_vBP + g_vPixels; -- for 640x480: c_vMax = 525
 
-  signal s_hCount : integer range 0 to c_hMax := 0;
-  signal s_vCount : integer range 0 to c_vMax := 0;
+  signal s_hCount : integer range 0 to c_hMax := 0; -- Signal to keep track of HORIZONTAL count
+  signal s_vCount : integer range 0 to c_vMax := 0; -- Signal to keep track of VERTICAL count
 
-  signal s_col : integer range 0 to (g_hPixels - 1) := 0;
-  signal s_row : integer range 0 to (g_vPixels - 1) := 0;
+  signal s_col : integer range 0 to (g_hPixels - 1) := 0; -- Signal which holds the COLUMN (x-Coordinate) and will be output
+  signal s_row : integer range 0 to (g_vPixels - 1) := 0; -- Signal which holds the ROW (y-Coordinate) and will be output
 
-  signal s_hSync : std_logic := not g_hPOL;
-  signal s_vSync : std_logic := not g_vPOL;
-  signal s_blank : std_logic := not g_bPOL;
+  signal s_hSync : std_logic := not g_hPOL; -- Signal for HORIZONTAL Sync pulse
+  signal s_vSync : std_logic := not g_vPOL; -- Signal for VERTICAL Sync pulse
+  signal s_blank : std_logic := not g_bPOL; -- Signal for BLANKING (indication if beam is in visible area)
 
 begin
 
@@ -110,7 +110,7 @@ p_seq : process(CLK_i, RST_i) is -- Sequential because it is clocked
   elsif(rising_edge(CLK_i)) then  -- Rising Edge at Master Clock detected
     if (ENA_i = '1') then         -- Pixel Clock is HIGH
 
-      ---- Manage horizontal and vertical counters
+      -- Manage horizontal and vertical counters
       if (s_hCount = c_hMax - 1) then       -- Horizontal count reached
         s_hCount <= 0;                      -- Reset Horizontal count
 
